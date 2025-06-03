@@ -1,7 +1,23 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { auth } from './auth';
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:5000/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = auth.getToken();
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql',
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
