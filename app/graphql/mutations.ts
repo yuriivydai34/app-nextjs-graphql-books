@@ -61,6 +61,7 @@ export interface LoginInput {
 export interface CreateBookInput {
   title: string;
   author: string;
+  authorId: string;
 }
 
 export interface UpdateBookInput {

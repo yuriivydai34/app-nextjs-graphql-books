@@ -80,6 +80,7 @@ export default function BookModal({ isOpen, onClose, book }: BookModalProps) {
         const createInput: CreateBookInput = {
           title,
           author: user.username,
+          authorId: user._id,
         };
         await createBook({
           variables: { createBookInput: createInput },
