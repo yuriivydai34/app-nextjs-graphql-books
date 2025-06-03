@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_USER, type CreateUserResponse } from '../graphql/mutations';
 import { useRouter } from 'next/navigation';
+import AuthNav from './AuthNav';
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -101,6 +102,7 @@ export default function RegisterForm() {
             </button>
           </div>
         </form>
+        <AuthNav />
       </div>
     </div>
   );

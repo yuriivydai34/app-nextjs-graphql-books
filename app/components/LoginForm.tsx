@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/client';
 import { LOGIN, type LoginResponse } from '../graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { auth } from '../lib/auth';
+import AuthNav from './AuthNav';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -15,8 +16,11 @@ export default function LoginForm() {
   const [login, { loading }] = useMutation<LoginResponse>(LOGIN, {
     onCompleted: (data) => {
       auth.setToken(data.login.access_token);
-      auth.setUser(data.login.user);
-      router.push('/'); // Redirect to home page after successful login
+      // Add a small delay to ensure the token is set before redirecting
+      setTimeout(() => {
+        router.push('/');
+        router.refresh(); // Refresh the page to update the authentication state
+      }, 100);
     },
     onError: (error) => {
       setError(error.message);
@@ -104,6 +108,7 @@ export default function LoginForm() {
             </button>
           </div>
         </form>
+        <AuthNav />
       </div>
     </div>
   );
