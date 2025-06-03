@@ -17,8 +17,8 @@ export default function BooksList() {
       limit: 10,
       sortBy: "title",
       sortOrder: "ASC",
-      search: "fantasy",
-      filter: JSON.stringify({ author: "Tolkien" })
+      search: "",
+      filter: JSON.stringify({})
     }
   });
 
