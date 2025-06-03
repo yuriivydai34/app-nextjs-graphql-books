@@ -63,7 +63,7 @@ export default function BookModal({ isOpen, onClose, book }: BookModalProps) {
       if (book) {
         // Update existing book
         const updateInput: UpdateBookInput = {
-          _id: book._id,
+          id: book._id,
           title: title !== book.title ? title : undefined,
         };
         await updateBook({

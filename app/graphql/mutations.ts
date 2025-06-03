@@ -65,7 +65,7 @@ export interface CreateBookInput {
 }
 
 export interface UpdateBookInput {
-  _id: string;
+  id: string;
   title?: string;
   author?: string;
 }
