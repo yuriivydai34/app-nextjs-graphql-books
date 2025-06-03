@@ -17,6 +17,37 @@ export const LOGIN = gql`
   }
 `;
 
+export const CREATE_BOOK = gql`
+  mutation CreateBook($createBookInput: CreateBookInput!) {
+    createBook(createBookInput: $createBookInput) {
+      _id
+      title
+      author
+      createdAt
+    }
+  }
+`;
+
+export const UPDATE_BOOK = gql`
+  mutation UpdateBook($updateBookInput: UpdateBookInput!) {
+    updateBook(updateBookInput: $updateBookInput) {
+      _id
+      title
+      author
+      createdAt
+    }
+  }
+`;
+
+export const REMOVE_BOOK = gql`
+  mutation RemoveBook($id: ID!) {
+    removeBook(id: $id) {
+      _id
+      title
+    }
+  }
+`;
+
 export interface CreateUserInput {
   username: string;
   password: string;
@@ -25,6 +56,17 @@ export interface CreateUserInput {
 export interface LoginInput {
   username: string;
   password: string;
+}
+
+export interface CreateBookInput {
+  title: string;
+  author: string;
+}
+
+export interface UpdateBookInput {
+  _id: string;
+  title?: string;
+  author?: string;
 }
 
 export interface CreateUserResponse {
@@ -37,9 +79,12 @@ export interface CreateUserResponse {
 export interface LoginResponse {
   login: {
     access_token: string;
-    user: {
-      _id: string;
-      username: string;
-    };
   };
+}
+
+export interface Book {
+  _id: string;
+  title: string;
+  author: string;
+  createdAt: string;
 } 

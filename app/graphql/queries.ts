@@ -50,6 +50,11 @@ export interface BooksMeta {
 export interface BooksResponse {
   books: {
     data: Book[];
-    meta: BooksMeta;
+    meta: {
+      currentPage: number;
+      totalPages: number;
+      itemsPerPage: number;
+      totalItems: number;
+    };
   };
 } 

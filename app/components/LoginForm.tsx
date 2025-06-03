@@ -16,7 +16,7 @@ export default function LoginForm() {
   const [login, { loading }] = useMutation<LoginResponse>(LOGIN, {
     onCompleted: (data) => {
       auth.setToken(data.login.access_token);
-      // Add a small delay to ensure the token is set before redirecting
+      // The user data will be automatically extracted from the token in setToken
       setTimeout(() => {
         router.push('/');
         router.refresh(); // Refresh the page to update the authentication state

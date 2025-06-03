@@ -5,12 +5,31 @@ import Cookies from 'js-cookie';
 const TOKEN_KEY = 'auth_token';
 const USER_KEY = 'auth_user';
 
+interface JWTPayload {
+  sub: string;
+  username: string;
+  iat: number;
+  exp: number;
+}
+
 export const auth = {
   setToken: (token: string) => {
     if (typeof window !== 'undefined') {
       // Set cookie for server-side authentication
       document.cookie = `${TOKEN_KEY}=${token}; path=/`;
       localStorage.setItem(TOKEN_KEY, token);
+      
+      // Extract and store user info from token
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1])) as JWTPayload;
+        const user = {
+          _id: payload.sub,
+          username: payload.username
+        };
+        auth.setUser(user);
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
     }
   },
 
@@ -31,7 +50,15 @@ export const auth = {
 
   isAuthenticated: () => {
     if (typeof window !== 'undefined') {
-      return !!localStorage.getItem(TOKEN_KEY);
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (!token) return false;
+
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1])) as JWTPayload;
+        return payload.exp * 1000 > Date.now(); // exp is in seconds
+      } catch {
+        return false;
+      }
     }
     return false;
   },
