@@ -34,6 +34,34 @@ export const GET_BOOKS = gql`
   }
 `;
 
+export const GET_USERS = gql`
+  query GetUsers {
+    users {
+      _id
+      username
+    }
+  }
+`;
+
+export const GET_PROFILE = gql`
+  query GetProfile {
+    profile {
+      sub
+      username
+    }
+  }
+`;
+
+export interface User {
+  _id: string;
+  username: string;
+}
+
+export interface UserProfile {
+  sub: string;
+  username: string;
+}
+
 export interface Book {
   _id: string;
   title: string;
