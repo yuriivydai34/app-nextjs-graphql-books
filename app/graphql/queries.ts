@@ -21,6 +21,7 @@ export const GET_BOOKS = gql`
         _id
         title
         author
+        authorId
         createdAt
       }
       meta {
@@ -37,6 +38,7 @@ export interface Book {
   _id: string;
   title: string;
   author: string;
+  authorId: string;
   createdAt: string;
 }
 

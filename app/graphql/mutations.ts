@@ -23,6 +23,7 @@ export const CREATE_BOOK = gql`
       _id
       title
       author
+      authorId
       createdAt
     }
   }
@@ -87,5 +88,6 @@ export interface Book {
   _id: string;
   title: string;
   author: string;
+  authorId: string;
   createdAt: string;
 } 

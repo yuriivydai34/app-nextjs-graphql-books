@@ -16,13 +16,16 @@ interface BookModalProps {
 export default function BookModal({ isOpen, onClose, book }: BookModalProps) {
   const router = useRouter();
   const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (book) {
       setTitle(book.title);
+      setAuthor(book.author);
     } else {
       setTitle('');
+      setAuthor('');
     }
   }, [book]);
 
@@ -37,6 +40,7 @@ export default function BookModal({ isOpen, onClose, book }: BookModalProps) {
     onCompleted: () => {
       onClose();
       setTitle('');
+      setAuthor('');
     },
     onError: (error) => setError(error.message),
     refetchQueries: [{ query: GET_BOOKS }],
@@ -65,6 +69,7 @@ export default function BookModal({ isOpen, onClose, book }: BookModalProps) {
         const updateInput: UpdateBookInput = {
           id: book._id,
           title: title !== book.title ? title : undefined,
+          author: author !== book.author ? author : undefined,
         };
         await updateBook({
           variables: { updateBookInput: updateInput },
@@ -79,7 +84,7 @@ export default function BookModal({ isOpen, onClose, book }: BookModalProps) {
 
         const createInput: CreateBookInput = {
           title,
-          author: user.username,
+          author,
           authorId: user._id,
         };
         await createBook({
@@ -114,12 +119,26 @@ export default function BookModal({ isOpen, onClose, book }: BookModalProps) {
             />
           </div>
 
+          <div>
+            <label htmlFor="author" className="block text-sm font-medium text-gray-700">
+              Author
+            </label>
+            <input
+              type="text"
+              id="author"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)} // This is just to keep the input controlled
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              placeholder="Enter book author"
+            />
+          </div>
+
           {book && (
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Author
               </label>
-              <p className="mt-1 text-sm text-gray-500">{book.author}</p>
+              <p className="mt-1 text-sm text-gray-500">{book.authorId}</p>
             </div>
           )}
 
